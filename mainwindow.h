@@ -29,9 +29,13 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void add_chart(QChartView* chartview);
+    void add_charts(QChartView* chartview, QChartView* chartview2);
 
     bool qstod(const QString& qs, double& dest);
+
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
 
 private:
     Ui::MainWindow *ui;

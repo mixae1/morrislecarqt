@@ -81,7 +81,10 @@ void MainWindow::on_pushButton_clicked(){
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
 
-    ui->stackedWidget->insertWidget(0, chartView);
+    ui->stackedWidget->removeWidget(ui->stackedWidget->widget(0));
+    ui->stackedWidget->removeWidget(ui->stackedWidget->widget(0));
+    ui->stackedWidget->addWidget(chartView);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::set_default() {
@@ -106,8 +109,11 @@ void MainWindow::on_pushButton_2_clicked() {
     set_default();
 }
 
-void MainWindow::add_chart(QChartView* chartview){
-    ui->stackedWidget->insertWidget(0, chartview);
+void MainWindow::add_charts(QChartView* chartview, QChartView* chartview2){
+    ui->stackedWidget->removeWidget(ui->stackedWidget->widget(0));
+    ui->stackedWidget->removeWidget(ui->stackedWidget->widget(0));
+    ui->stackedWidget->addWidget(chartview);
+    ui->stackedWidget->addWidget(chartview2);
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -115,6 +121,8 @@ void MainWindow::create_model(){
     model = new MorrisLecar();
     model->calc_data();
     auto ret = model->get_data();
+
+    // 1
     QLineSeries *series = new QLineSeries();
     for(int i = 0; i < ret.size(); i++){
         series->append(i/model->get_accuracy(), ret[i].first);
@@ -124,8 +132,38 @@ void MainWindow::create_model(){
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();
-    chart->setTitle("V\T");
+    chart->setTitle("V / T");
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-    add_chart(chartView);
+
+    // 2
+    QLineSeries *series2 = new QLineSeries();
+    for(int i = 0; i < ret.size(); i++){
+        series2->append(ret[i].first, ret[i].second);
+    }
+
+    QChart *chart2 = new QChart();
+    chart2->legend()->hide();
+    chart2->addSeries(series2);
+    chart2->createDefaultAxes();
+    chart2->setTitle("N / V");
+    QChartView *chartView2 = new QChartView(chart2);
+    chartView2->setRenderHint(QPainter::Antialiasing);
+
+    //QComboBox *pageComboBox = new QComboBox;
+    //pageComboBox->addItem(tr("Page 1"));
+    //pageComboBox->addItem(tr("Page 2"));
+    //connect(pageComboBox, QOverload<int>::of(&QComboBox::activated), ui->stackedWidget, &QStackedWidget::setCurrentIndex);
+
+    add_charts(chartView, chartView2);
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }
