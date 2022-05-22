@@ -20,6 +20,10 @@ inline double div(const double& delta_1, const double& delta_2) {
 
 class MorrisLecar {
 public:
+    const vector<vector<double>> defaults = {
+    {120., -84., -60., -1.2, 18., 12., 30., 4.4, 8., 2., 1., 0.04, 20., 12., 10., -10., 0.},
+    {100., -70., -50., -1, 15., 2., 30., 4.4, 8., 0.2, 20., 0.05, 27.46445, 60., 15., -40., 0.}
+};
     const double _g_Ca = 4.4;	// calcium
     const double _g_K = 8.;		// potassium
     const double _g_L = 2;		// leak
@@ -40,6 +44,9 @@ public:
 
     const double _time = 250.;
     const double _accuracy = 10.;
+
+    const double _V0 = -10.;
+    const double _N0 = 0.;
 
 private:
     double g_Ca;
@@ -62,6 +69,9 @@ private:
 
     double time;
     double accuracy;
+
+    double V0;
+    double N0;
 
     vector<pdd> data; // an array for V and n relationships
 

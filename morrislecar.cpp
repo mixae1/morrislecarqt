@@ -16,8 +16,8 @@ void MorrisLecar::calc_data(){
     int steps = (int)(time * accuracy);
     data = vector<pdd>(steps + 1);
 
-    data[0].first = -10.;
-    data[0].second = 0.;
+    data[0].first = V0;
+    data[0].second = N0;
 
     double delta_i = (time - 0.) / steps;
     double leftV = get_dV(data[0].first, data[0].second);
@@ -58,6 +58,8 @@ void MorrisLecar::load_values(const vector<double>& values){
     this->I_ext = values[12];
     this->time = values[13];
     this->accuracy = values[14];
+    this->V0 = values[15];
+    this->N0 = values[16];
 }
 
 void MorrisLecar::set_default(){
@@ -76,6 +78,8 @@ void MorrisLecar::set_default(){
     this->I_ext = _I_ext;
     this->time = _time;
     this->accuracy = _accuracy;
+    this->V0 = _V0;
+    this->N0 = _N0;
 }
 
 void integral(vector<double>& dest, double(*f)(double), const double& lower_bound, const double& upper_bound, const int& steps){
